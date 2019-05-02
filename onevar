@@ -1,0 +1,3 @@
+** computation of conditional rank statistic
+** linear quantile regression
+install.packages("quantreg")
