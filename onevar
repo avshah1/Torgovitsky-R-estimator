@@ -40,7 +40,7 @@ for (j in 1:clen){
   sum = sum + k
 }
 
-R = 1/(clen - 1) * sum
-print(R)  
+rankstat = 1/(clen - 1) * sum
+print(rankstat)  
 
 #computation of beta
