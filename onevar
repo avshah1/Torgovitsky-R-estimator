@@ -1,1 +1,46 @@
+library(quantreg)
+library(tidyverse)
+library(readr)
 
+
+mydata <- read_csv("quantile_health.csv")
+attach(mydata)
+#bind data to variables
+Y <- cbind(totexp)
+X <- cbind(suppins, totchr, age, female, white)
+
+#summary
+summary(X)
+summary(Y)
+
+#conditional rank calculation 
+
+# quant regression, single var
+startq = .1
+endq = .9
+step = .1
+len = (endq - startq) / step
+print(len)
+
+quantregt <- rq(Y ~ totchr, tau = seq(startq, endq, by = step), data = mydata)
+
+summary(quantregt)
+
+#rowmean over indicators
+clen = (len + 1)
+
+coef = coef(quantregt)[seq(from = 2, by = 2, to = 2*clen)]
+print(coef)
+
+k = 0
+sum = 0
+
+for (j in 1:clen){
+  k = coef[j]*totchr <= totexp
+  sum = sum + k
+}
+
+R = 1/(clen - 1) * sum
+print(R)  
+
+#computation of beta
